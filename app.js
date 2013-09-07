@@ -48,7 +48,7 @@ app.regenerate = function(){
 app.create = function(url, name){
   if (!url)
     return;
-  url = link.replace(/"/g,'\"');
+  url = url.replace(/"/g,'\"');
   while(!name || fs.existsSync(path.join(base.dir, name))){
     name = Math.random().toString(36).substring(2,7);
   }
