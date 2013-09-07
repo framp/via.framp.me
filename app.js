@@ -2,9 +2,24 @@ var fs = require('fs')
   , path = require('path')
   , app = {}
   , base = {
-      dir: path.join(__dirname, '/links/')
+      dir: path.join(__dirname)
     , url: 'http://via.framp.me/'
     }
+  , dirExceptions = {
+    '.git': 1
+  }
+
+/* walkDirectories
+ * Loop over stored links directories
+ */
+
+function walkDirectories(cb){
+  fs.readdirSync(base.dir).forEach(function(dir){
+    var stat = fs.statSync(path.join(base.dir, dir));
+    if (stat.isDirectory() && !(dir in dirExceptions))
+      cb.call(this, dir);
+  });
+}
     
 /* init
  * Initialize the application given process.argv
@@ -22,7 +37,7 @@ app.init = function(){
  */
 
 app.list = function(){
-  fs.readdirSync(base.dir).forEach(function(dir){
+  walkDirectories(function(dir){
     console.log(dir, require(path.join(base.dir, dir)).url);
   });
 };
@@ -33,8 +48,8 @@ app.list = function(){
 
 app.regenerate = function(){
   var template = fs.readFileSync('./template.html', { encoding: 'utf8' });
-  fs.readdirSync(base.dir).forEach(function(dir){
-    var url = require(path.join(base.dir, dir)).url
+  walkDirectories(function(dir){
+    var url = require(path.join(base.dir, dir)).url;
     var result = template.replace(/{url}/g, url);
     fs.writeFileSync(path.join(base.dir, dir, '/index.html'), result)
   });
@@ -56,12 +71,12 @@ app.create = function(url, name){
   var result = template.replace(/{url}/g, url);
   
   var dir = path.join(base.dir, name);
-  var url =  path.join(base.url, name);
+  var shortenedUrl = path.join(base.url, name);
   fs.mkdirSync(dir);
   fs.writeFileSync(path.join(dir, '/index.html'), result)
   fs.writeFileSync(path.join(dir, '/index.json'), '{"url":"' + url + '"}')
   
-  console.log(url);
+  console.log(shortenedUrl);
 }
 
 app.init();
