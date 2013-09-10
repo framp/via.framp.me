@@ -5,6 +5,7 @@ var fs = require('fs')
       dir: path.join(__dirname)
     , url: 'http://via.framp.me/'
     }
+  , template = './template.html'
   , dirExceptions = {
     '.git': 1
   }
@@ -43,16 +44,27 @@ app.list = function(){
 };
 
 /* regenerate
- * Regenerate the redirect page with a given template
+ * Regenerate the redirect page with template
  */
 
 app.regenerate = function(){
-  var template = fs.readFileSync('./template.html', { encoding: 'utf8' });
+  var template = fs.readFileSync(template, { encoding: 'utf8' });
   walkDirectories(function(dir){
     var url = require(path.join(base.dir, dir)).url;
     var result = template.replace(/{url}/g, url);
     fs.writeFileSync(path.join(base.dir, dir, '/index.html'), result)
   });
+}
+
+/* remove
+ * Remove a redirect page
+ */
+
+app.remove = function(name){
+  var dir = path.join(base.dir, name);
+  fs.unlinkSync(path.join(dir, 'index.html'));
+  fs.unlinkSync(path.join(dir, 'index.json'));
+  fs.rmdirSync(dir);
 }
 
 /* create
@@ -67,7 +79,7 @@ app.create = function(url, name){
   while(!name || fs.existsSync(path.join(base.dir, name))){
     name = Math.random().toString(36).substring(2,7);
   }
-  var template = fs.readFileSync('./template.html', { encoding: 'utf8' });
+  var template = fs.readFileSync(template, { encoding: 'utf8' });
   var result = template.replace(/{url}/g, url);
   
   var dir = path.join(base.dir, name);
