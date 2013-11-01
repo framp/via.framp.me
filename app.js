@@ -2,10 +2,10 @@ var fs = require('fs')
   , path = require('path')
   , app = {}
   , base = {
-      dir: path.join(__dirname)
+      dir: __dirname
     , url: 'http://via.framp.me/'
     }
-  , template = './template.html'
+  , templateFile = 'template.html'
   , dirExceptions = {
     '.git': 1
   }
@@ -48,7 +48,7 @@ app.list = function(){
  */
 
 app.regenerate = function(){
-  var template = fs.readFileSync(template, { encoding: 'utf8' });
+  var template = fs.readFileSync(path.join(base.dir, templateFile), { encoding: 'utf8' });
   walkDirectories(function(dir){
     var url = require(path.join(base.dir, dir)).url;
     var result = template.replace(/{url}/g, url);
@@ -79,7 +79,7 @@ app.create = function(url, name){
   while(!name || fs.existsSync(path.join(base.dir, name))){
     name = Math.random().toString(36).substring(2,7);
   }
-  var template = fs.readFileSync(template, { encoding: 'utf8' });
+  var template = fs.readFileSync(path.join(base.dir, templateFile), { encoding: 'utf8' });
   var result = template.replace(/{url}/g, url);
   
   var dir = path.join(base.dir, name);
