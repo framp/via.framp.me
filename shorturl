@@ -1,0 +1,8 @@
+#!/bin/bash
+REPO="via.framp.me" #git@github.com:framp/via.framp.me.git location
+/usr/bin/node "$REPO/app.js" $@
+
+cd "$REPO"
+git add .
+git commit -m "$@"
+git push
