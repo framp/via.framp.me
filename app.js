@@ -83,7 +83,7 @@ app.create = function(url, name){
   var result = template.replace(/{url}/g, url);
   
   var dir = path.join(base.dir, name);
-  var shortenedUrl = path.join(base.url, name);
+  var shortenedUrl = base.url + '/' + name;
   fs.mkdirSync(dir);
   fs.writeFileSync(path.join(dir, '/index.html'), result)
   fs.writeFileSync(path.join(dir, '/index.json'), '{"url":"' + url + '"}')
