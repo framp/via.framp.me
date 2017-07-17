@@ -1,9 +1,9 @@
-# github-url-shortener
+# github-url-shortener
 
 Github Pages powered url shortener
 Shorten your URLs publishing redirect links on a Github Page
 
-## Setup
+## Setup
 
 - Clone this repo
 - Update your `CNAME` file to your domain
