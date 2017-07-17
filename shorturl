@@ -1,8 +1,6 @@
 #!/bin/bash
-REPO="via.framp.me" #git@github.com:framp/via.framp.me.git location
-/usr/bin/node "$REPO/app.js" $@
-
-cd "$REPO"
-git add .
-git commit -m "$@"
-git push
+CURRENT="$(pwd)"
+REPO="$(dirname $(readlink --canonicalize-existing "$0"))"
+cd $REPO
+node "app.js" $@ && git add . && git commit -m "$@" && #git push
+cd $CURRENT

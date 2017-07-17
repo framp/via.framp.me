@@ -1,25 +1,21 @@
-via.framp.me
-============
+# github-url-shortener
 
-github powered url shortener
+Github Pages powered url shortener
+Shorten your URLs publishing redirect links on a Github Page
 
-- Clone the repo somewhere
-- Customize the REPO variable inside shorturl
-- `cp shorturl /usr/bin/shorturl`
-- ???
-- Profit!
+## Setup
 
+- Clone this repo
+- Update your `CNAME` file to your domain
+- Link `shorturl` to a directory part of `PATH` 
+- eg. `ln -s "$(pwd)/shorturl" /usr/bin/shorturl`
 
+## How to use
 
-shorturl `link [id]`
------------
-Create a page which redirect to `link`. 
-If an `id` is provided (and it hasn't been used yet) page will be named after `id`.
+```bash
+shorturl link [id]
+```
 
-shorturl list
------------
-List all the saved links
-
-shortulr remove `id`
------------
-Remove the link saved at `id`
+- Create a page which redirect to `link` and push it to your repo
+- If an `id` is provided (and it hasn't been used yet) the page will use that
+- Check your link at `http://YOURDOMAIN/ID`
