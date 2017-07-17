@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 
 const domain = fs.readFileSync('./CNAME', { encoding: 'utf8' })
-const baseURL = `http://${domain}/`
+const baseURL = `http://${domain}`
 const templateFile = 'template.html'
 
 const url = process.argv[2]

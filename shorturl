@@ -2,5 +2,5 @@
 CURRENT="$(pwd)"
 REPO="$(dirname $(readlink --canonicalize-existing "$0"))"
 cd $REPO
-node "app.js" $@ && git add . && git commit -m "$@" && #git push
+node "app.js" $@ && git add . && git commit -m "$@" && git push
 cd $CURRENT
